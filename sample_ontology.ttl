@@ -1,0 +1,315 @@
+@prefix ex: <http://example.org/ontology/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+# ============================================
+# Ontology Metadata
+# ============================================
+
+<http://example.org/ontology/> a owl:Ontology ;
+    dc:title "Sample Organization Ontology" ;
+    dc:description "A sample ontology for demonstrating RDF/OWL concepts" ;
+    dc:creator "RDF/OWL Visualizer" ;
+    dc:date "2024-01-01" ;
+    owl:versionInfo "1.0" .
+
+# ============================================
+# Classes
+# ============================================
+
+ex:Person a owl:Class ;
+    rdfs:label "Person"@en ;
+    rdfs:comment "A human being"@en ;
+    rdfs:subClassOf ex:Agent .
+
+ex:Organization a owl:Class ;
+    rdfs:label "Organization"@en ;
+    rdfs:comment "A social or legal entity"@en ;
+    rdfs:subClassOf ex:Agent .
+
+ex:Agent a owl:Class ;
+    rdfs:label "Agent"@en ;
+    rdfs:comment "An entity that can act and has agency"@en .
+
+ex:Department a owl:Class ;
+    rdfs:label "Department"@en ;
+    rdfs:comment "A division within an organization"@en .
+
+ex:Project a owl:Class ;
+    rdfs:label "Project"@en ;
+    rdfs:comment "A planned work initiative"@en .
+
+ex:Skill a owl:Class ;
+    rdfs:label "Skill"@en ;
+    rdfs:comment "A particular ability or expertise"@en .
+
+ex:Document a owl:Class ;
+    rdfs:label "Document"@en ;
+    rdfs:comment "A written or digital record"@en .
+
+# ============================================
+# Object Properties
+# ============================================
+
+ex:worksFor a owl:ObjectProperty ;
+    rdfs:label "works for"@en ;
+    rdfs:comment "Indicates employment relationship"@en ;
+    rdfs:domain ex:Person ;
+    rdfs:range ex:Organization ;
+    owl:inverseOf ex:employs .
+
+ex:employs a owl:ObjectProperty ;
+    rdfs:label "employs"@en ;
+    rdfs:comment "Indicates that an organization employs a person"@en ;
+    rdfs:domain ex:Organization ;
+    rdfs:range ex:Person .
+
+ex:manages a owl:ObjectProperty ;
+    rdfs:label "manages"@en ;
+    rdfs:comment "Indicates management relationship"@en ;
+    rdfs:domain ex:Person ;
+    rdfs:range ex:Agent .
+
+ex:memberOf a owl:ObjectProperty ;
+    rdfs:label "member of"@en ;
+    rdfs:comment "Indicates membership in a department"@en ;
+    rdfs:domain ex:Person ;
+    rdfs:range ex:Department .
+
+ex:partOf a owl:ObjectProperty ;
+    rdfs:label "part of"@en ;
+    rdfs:comment "Indicates that something is part of a larger whole"@en ;
+    rdfs:domain ex:Department ;
+    rdfs:range ex:Organization .
+
+ex:worksOn a owl:ObjectProperty ;
+    rdfs:label "works on"@en ;
+    rdfs:comment "Indicates a person is working on a project"@en ;
+    rdfs:domain ex:Person ;
+    rdfs:range ex:Project .
+
+ex:hasSkill a owl:ObjectProperty ;
+    rdfs:label "has skill"@en ;
+    rdfs:comment "Indicates that a person has a particular skill"@en ;
+    rdfs:domain ex:Person ;
+    rdfs:range ex:Skill .
+
+ex:collaboratesWith a owl:ObjectProperty ;
+    rdfs:label "collaborates with"@en ;
+    rdfs:comment "Indicates collaboration between persons"@en ;
+    rdfs:domain ex:Person ;
+    rdfs:range ex:Person ;
+    a owl:SymmetricProperty .
+
+ex:authors a owl:ObjectProperty ;
+    rdfs:label "authors"@en ;
+    rdfs:comment "Indicates authorship of a document"@en ;
+    rdfs:domain ex:Person ;
+    rdfs:range ex:Document .
+
+# ============================================
+# Datatype Properties
+# ============================================
+
+ex:hasName a owl:DatatypeProperty ;
+    rdfs:label "has name"@en ;
+    rdfs:comment "The name of an entity"@en ;
+    rdfs:domain ex:Agent ;
+    rdfs:range xsd:string .
+
+ex:hasEmail a owl:DatatypeProperty ;
+    rdfs:label "has email"@en ;
+    rdfs:comment "Email address of a person"@en ;
+    rdfs:domain ex:Person ;
+    rdfs:range xsd:string .
+
+ex:hasPhoneNumber a owl:DatatypeProperty ;
+    rdfs:label "has phone number"@en ;
+    rdfs:comment "Phone number of a person"@en ;
+    rdfs:domain ex:Person ;
+    rdfs:range xsd:string .
+
+ex:foundedDate a owl:DatatypeProperty ;
+    rdfs:label "founded date"@en ;
+    rdfs:comment "The date an organization was founded"@en ;
+    rdfs:domain ex:Organization ;
+    rdfs:range xsd:date .
+
+ex:employeeCount a owl:DatatypeProperty ;
+    rdfs:label "employee count"@en ;
+    rdfs:comment "Number of employees"@en ;
+    rdfs:domain ex:Organization ;
+    rdfs:range xsd:integer .
+
+ex:budget a owl:DatatypeProperty ;
+    rdfs:label "budget"@en ;
+    rdfs:comment "Budget amount"@en ;
+    rdfs:domain ex:Project ;
+    rdfs:range xsd:decimal .
+
+ex:startDate a owl:DatatypeProperty ;
+    rdfs:label "start date"@en ;
+    rdfs:comment "Project start date"@en ;
+    rdfs:domain ex:Project ;
+    rdfs:range xsd:date .
+
+ex:endDate a owl:DatatypeProperty ;
+    rdfs:label "end date"@en ;
+    rdfs:comment "Project end date"@en ;
+    rdfs:domain ex:Project ;
+    rdfs:range xsd:date .
+
+ex:proficiencyLevel a owl:DatatypeProperty ;
+    rdfs:label "proficiency level"@en ;
+    rdfs:comment "Level of skill proficiency (1-10)"@en ;
+    rdfs:domain ex:Skill ;
+    rdfs:range xsd:integer .
+
+# ============================================
+# Individuals (Instances)
+# ============================================
+
+# Organizations
+ex:TechCorp a ex:Organization ;
+    ex:hasName "TechCorp Inc." ;
+    ex:foundedDate "2005-03-15"^^xsd:date ;
+    ex:employeeCount 500 ;
+    rdfs:label "TechCorp" .
+
+ex:InnovateLabs a ex:Organization ;
+    ex:hasName "Innovate Labs" ;
+    ex:foundedDate "2010-06-20"^^xsd:date ;
+    ex:employeeCount 150 ;
+    rdfs:label "Innovate Labs" .
+
+# Departments
+ex:EngineeringDept a ex:Department ;
+    ex:hasName "Engineering Department" ;
+    ex:partOf ex:TechCorp ;
+    rdfs:label "Engineering" .
+
+ex:ResearchDept a ex:Department ;
+    ex:hasName "Research Department" ;
+    ex:partOf ex:TechCorp ;
+    rdfs:label "Research" .
+
+ex:MarketingDept a ex:Department ;
+    ex:hasName "Marketing Department" ;
+    ex:partOf ex:InnovateLabs ;
+    rdfs:label "Marketing" .
+
+# People
+ex:JohnSmith a ex:Person ;
+    ex:hasName "John Smith" ;
+    ex:hasEmail "john.smith@techcorp.com" ;
+    ex:hasPhoneNumber "+1-555-0101" ;
+    ex:worksFor ex:TechCorp ;
+    ex:memberOf ex:EngineeringDept ;
+    rdfs:label "John Smith" .
+
+ex:JaneDoe a ex:Person ;
+    ex:hasName "Jane Doe" ;
+    ex:hasEmail "jane.doe@techcorp.com" ;
+    ex:hasPhoneNumber "+1-555-0102" ;
+    ex:worksFor ex:TechCorp ;
+    ex:memberOf ex:EngineeringDept ;
+    ex:collaboratesWith ex:JohnSmith ;
+    rdfs:label "Jane Doe" .
+
+ex:BobJohnson a ex:Person ;
+    ex:hasName "Bob Johnson" ;
+    ex:hasEmail "bob.johnson@techcorp.com" ;
+    ex:hasPhoneNumber "+1-555-0103" ;
+    ex:worksFor ex:TechCorp ;
+    ex:memberOf ex:ResearchDept ;
+    ex:manages ex:ResearchDept ;
+    rdfs:label "Bob Johnson" .
+
+ex:AliceWilson a ex:Person ;
+    ex:hasName "Alice Wilson" ;
+    ex:hasEmail "alice.wilson@innovatelabs.com" ;
+    ex:hasPhoneNumber "+1-555-0201" ;
+    ex:worksFor ex:InnovateLabs ;
+    ex:memberOf ex:MarketingDept ;
+    rdfs:label "Alice Wilson" .
+
+ex:CharlieBrown a ex:Person ;
+    ex:hasName "Charlie Brown" ;
+    ex:hasEmail "charlie.brown@techcorp.com" ;
+    ex:hasPhoneNumber "+1-555-0104" ;
+    ex:worksFor ex:TechCorp ;
+    ex:memberOf ex:EngineeringDept ;
+    ex:collaboratesWith ex:JohnSmith, ex:JaneDoe ;
+    rdfs:label "Charlie Brown" .
+
+# Skills
+ex:Python a ex:Skill ;
+    ex:hasName "Python Programming" ;
+    rdfs:label "Python" .
+
+ex:MachineLearning a ex:Skill ;
+    ex:hasName "Machine Learning" ;
+    rdfs:label "Machine Learning" .
+
+ex:DataVisualization a ex:Skill ;
+    ex:hasName "Data Visualization" ;
+    rdfs:label "Data Visualization" .
+
+ex:ProjectManagement a ex:Skill ;
+    ex:hasName "Project Management" ;
+    rdfs:label "Project Management" .
+
+# Link people to skills
+ex:JohnSmith ex:hasSkill ex:Python, ex:DataVisualization .
+ex:JaneDoe ex:hasSkill ex:MachineLearning, ex:Python .
+ex:BobJohnson ex:hasSkill ex:ProjectManagement, ex:MachineLearning .
+ex:CharlieBrown ex:hasSkill ex:Python, ex:MachineLearning .
+
+# Projects
+ex:DataWarehouseProject a ex:Project ;
+    ex:hasName "Data Warehouse Modernization" ;
+    ex:startDate "2024-01-01"^^xsd:date ;
+    ex:endDate "2024-12-31"^^xsd:date ;
+    ex:budget "250000.00"^^xsd:decimal ;
+    rdfs:label "Data Warehouse Project" .
+
+ex:AIResearchProject a ex:Project ;
+    ex:hasName "AI Research Initiative" ;
+    ex:startDate "2024-03-01"^^xsd:date ;
+    ex:endDate "2025-03-01"^^xsd:date ;
+    ex:budget "500000.00"^^xsd:decimal ;
+    rdfs:label "AI Research" .
+
+# Link people to projects
+ex:JohnSmith ex:worksOn ex:DataWarehouseProject .
+ex:JaneDoe ex:worksOn ex:DataWarehouseProject, ex:AIResearchProject .
+ex:BobJohnson ex:worksOn ex:AIResearchProject ;
+    ex:manages ex:AIResearchProject .
+ex:CharlieBrown ex:worksOn ex:DataWarehouseProject .
+
+# Documents
+ex:ProjectProposal a ex:Document ;
+    ex:hasName "AI Research Project Proposal" ;
+    rdfs:label "Project Proposal" .
+
+ex:TechnicalSpec a ex:Document ;
+    ex:hasName "Data Warehouse Technical Specification" ;
+    rdfs:label "Technical Spec" .
+
+# Link people to documents
+ex:BobJohnson ex:authors ex:ProjectProposal .
+ex:JohnSmith ex:authors ex:TechnicalSpec .
+ex:JaneDoe ex:authors ex:TechnicalSpec .
+
+# ============================================
+# Additional Relationships
+# ============================================
+
+# Management relationships
+ex:BobJohnson ex:manages ex:JaneDoe .
+ex:TechCorp ex:employs ex:JohnSmith, ex:JaneDoe, ex:BobJohnson, ex:CharlieBrown .
+ex:InnovateLabs ex:employs ex:AliceWilson .
+
